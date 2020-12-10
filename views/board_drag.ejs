@@ -5,9 +5,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <!-- jQuery library -->    
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
         <!-- DevExtreme themes -->
         <link rel="stylesheet" href="\stylesheets\dx.common.css">
@@ -19,19 +16,9 @@
 
         <!-- This demo uses an 3rd-party, jQuery UI based context menu -->
         <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-        <!-- jquery-contextmenu (https://github.com/mar10/jquery-ui-contextmenu/) -->
-        <script src="https://cdn.jsdelivr.net/npm/ui-contextmenu/jquery.ui-contextmenu.min.js"></script>
 
         <!-- Fancytree themes -->
         <link rel="stylesheet" href="\stylesheets\skin-win8\ui.fancytree.css"/>
-        <!-- Fancytree library -->
-        <script src="\javascripts\jquery.fancytree.js"></script>
-        <script src="\javascripts\jquery.fancytree.dnd.js"></script>
-        <script src="\javascripts\jquery.fancytree.edit.js"></script>
-        <script src="\javascripts\jquery.fancytree.gridnav.js"></script>
-        <script src="\javascripts\jquery.fancytree.table.js"></script>
-        <script src="\javascripts\jquery.fancytree.multi.js"></script>
 
 
         <title>Document</title>
@@ -40,10 +27,10 @@
                 max-height: 440px;
             }
 
-            #bm_tree {
+           /*  #bm_tree {
                 max-height: 380px;
                 min-height: 380px;
-            }
+            } */
 
             .dx-sortable-dragging {
                 opacity: 0.9
@@ -131,85 +118,82 @@
             }
 
             .fixed-size {
-                height: 300px;
+                height: 400px;
                 overflow: auto;
                 position: relative;
             }
 
+            th {
+                background-color: lightgray;
+                text-align: center;
+                vertical-align: middle;
+                padding: 5px;
+                white-space: pre;
+            }
+
+            td {
+                border: 1px solid #ededed;
+                text-align: left;
+                vertical-align: middle;
+                padding: 5px;
+                white-space: pre;
+            }
+
             /* p {
                 margin: 0px;
-            } */
+            }*/
         </style>
-    </head>
-    <body class="dx-viewport">
-        <div class="demo-container" style="width: 30%; position: relative; display: inline-block;">
-            <div class="form">
-                <div class="dx-fieldset">    
-                    <div class="dx-field">
-                        <div class="dx-field-label">제목</div>
-                        <div class="dx-field-value">
-                            <div id="title"></div>
+        </head>
+        <body class="dx-viewport">
+            <div class="demo-container" style="width: 30%; position: relative; display: inline-block;">
+                <div class="form">
+                    <div class="dx-fieldset">    
+                        <div class="dx-field">
+                            <div class="dx-field-label">제목</div>
+                            <div class="dx-field-value">
+                                <div id="title"></div>
+                            </div>
+                        </div>    
+                        <div class="dx-field">
+                            <div class="dx-field-label">이름</div>
+                            <div class="dx-field-value">
+                                <div id="name"></div>
+                            </div>
                         </div>
                     </div>    
-                    <div class="dx-field">
-                        <div class="dx-field-label">이름</div>
-                        <div class="dx-field-value">
-                            <div id="name"></div>
-                        </div>
-                    </div>
-                </div>    
-            </div>
+                </div>
 
-            <div id="btnNew" class="validate"></div>
-            <div id="btnChildNew" class="validate"></div>
-            <div id="btnUpdate" class="validate"></div>
+                <div id="btnNew" class="validate"></div>
+                <div id="btnChildNew" class="validate"></div>
+                <div id="btnUpdate" class="validate"></div>
 
-            <div class="options"></div>
-            
-            <div id="tree-list-demo" class="fixed-size">
-                <table id="bm_tree" style="max-height: 380px;">
-                    <colgroup>
-                        <col width="150px" />
-                        <col width="50px" />
-                        <col width="20px" />
-                        <col width="20px" />
-                        <col width="40px" />
-                        <col width="20px" />
-                        <col width="20px" />
-                        <col width="20px" />
-                        <col width="20px" />
-                        <col width="20px" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>BM i</th>
-                            <th>BM_UpIDs</th>
-                            <th>BMTR Order</th>
-                            <th>BMT_LoIDs</th>
-                            <th>BMTR lv</th>
-                            <th>BMTR Grp ID</th>
-                            <th>D ID</th>
-                            <th>BMTR Seq</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Define a row template for all invariant markup: -->
-                        <tr>
-                            <td class="alignCenter"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="options"></div>
+
+                <!-- <div>
+                    <button type="button" id="expandAll">Expand all</button>
+                    <button type="button" id="collapseAll">Collapse all</button>
+                    <button type="button" id="redraw">Redraw viewport</button>
+                </div> -->
+
+                <div id="tableWrapper" class="fixed-size">
+                    <table id="bm_tree">
+                        <thead>
+                            <tr>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>BM i</th>
+                                <th>BM_UpIDs</th>
+                                <th>BMTR Order</th>
+                                <th>BM_LoIDs</th>
+                                <th>BMTR lv</th>
+                                <th>BMTR Grp ID</th>
+                                <th>D ID</th>
+                                <th>BMTR Seq</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
                 <!-- <div id="dx-paging" style="height: 12px; margin-top: 5px; text-align: center;"></div>  -->
                 <div class="pagination-wrapper clearfix">
                     <ul id="pages_moveByGroup" class="pagination float--right"></ul>
@@ -220,26 +204,33 @@
                 <div class="pagination-wrapper clearfix">
                     <ul id="pages_moveHomeEnd" class="pagination float--right"></ul>
                 </div>
+
+                <!-- <div class="options">
+                    <div class="caption">Options</div>
+                    <div class="option">
+                        <div id="allowDropInside"></div>
+                    </div>
+                    <div class="option">
+                        <div id="allowReordering"></div>
+                    </div>
+                    <div class="option">
+                        <div id="dragIcons"></div>
+                    </div>
+                </div> -->
             </div>
-
-            <!-- <div class="options">
-                <div class="caption">Options</div>
-                <div class="option">
-                    <div id="allowDropInside"></div>
-                </div>
-                <div class="option">
-                    <div id="allowReordering"></div>
-                </div>
-                <div class="option">
-                    <div id="dragIcons"></div>
-                </div>
-            </div> -->
-        </div>
-        <div id="editor"></div>
-    </body>
+            <div id="editor"></div>
+        </body>
 
 
 
+    <!-- jQuery library -->    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- jQuery ui library -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- jquery-contextmenu (https://github.com/mar10/jquery-ui-contextmenu/) -->
+    <script src="https://cdn.jsdelivr.net/npm/ui-contextmenu/jquery.ui-contextmenu.min.js"></script>
 
     <!-- Quill editor library -->
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script> -->
@@ -253,11 +244,14 @@
     <script type="text/javascript" src="/javascripts/jodit.js"></script>
 
     <!-- Fancytree library -->
-        <script jquery-ui src="/javascripts/jquery.fancytree.js"></script>
+        <script src="/javascripts/jquery.fancytree.js"></script>
         <script src="/javascripts/jquery.fancytree.dnd5.js"></script>
-        <script src="/javascripts/jquery.fancytree.edit.js"></script>
-        <script src="/javascripts/jquery.fancytree.gridnav.js"></script>
         <script src="/javascripts/jquery.fancytree.table.js"></script>
+        <script src="\javascripts\jquery.fancytree.multi.js"></script>
+        <script src="\javascripts\jquery-ui-dependencies/jquery.fancytree.ui-deps.js"></script>
+        <script src="\javascripts\jquery.fancytree.fixed.js"></script>
+        <script src="\javascripts\jquery.fancytree.childcounter.js"></script>
+        <script src="\javascripts\jquery.fancytree.filter.js"></script>
 
     <script>
 
@@ -368,7 +362,7 @@
 
 
         var nowPage = 1;        // 지금 페이지 번호
-        var dataPerPage = 11;   // 한 페이지당 보여줄 게시물 수
+        var dataPerPage = 20;   // 한 페이지당 보여줄 게시물 수
 
         const pageCount = 5;                                        // 한 화면에 보여줄 페이지 수
         const sideBtnCountUp = Math.ceil((pageCount - 1) / 2);      // 중앙을 기준으로 양쪽에 위치할 버튼 수(올림)
@@ -602,158 +596,245 @@
             }
         }
 
+        // D_Title을 title로 바꾸는 함수
+        function changeD_Title(responseData){
+
+            var data = JSON.stringify(responseData);
+
+            var result = JSON.parse(data.replace(/D_Title/g,"title"));
+            // replaceAll 사용법
+            // replace()를 사용하되, 따옴표를 /로 대체하고, 뒤에 옵션을 붙인다.
+            // 옵션 g : 전역 검색
+            // 옵션 i : 대/소문자 구분 안함
+            // 옵션 m : 여러 줄 검색
+
+            return result;
+        }
+
         function BindData(){
-            var treeList = $("#bm_tree").fancytree({
-                autoScroll: true,   // 자동 스크롤
-                source: $.ajax({
-                    type: 'POST',
-                    url: '/api/callData',
-                    data: {pPage: 8, pPageCount: dataPerPage},
-                    //dataType: "json",
-                    cache: false,
-                    success: function(response) {
-                        console.log("response.data");
-                        console.log(JSON.stringify(response.data));
-                        console.log($("#tree").fancytree("getTree").data);
-                    }
-                }),
-               /*  source: [
-                    {title: "node 1", folder: true, expanded: true, children: [
-                    {title: "node 1.1"},
-                    {title: "node 1.2"}
-                    ]},
-                    {title: "node 2", folder: true, expanded: false, children: [
-                    {title: "node 2.1"},
-                    {title: "node 2.2"}
-                    ]}
-                ], */
 
-                extensions: ["table", "dnd5", "multi"], // 필요한 확장 요소들
+            // Fancytree
+            $.ajax({
+                type: 'POST',
+                url: '/api/callData',
+                data: {pPage: nowPage, pPageCount: dataPerPage},
+                //data: {pPage: 1, pPageCount: 150},
+                dataType: "json",
+                cache: false,
+                success: function(response) {
+                    console.log("response.data");
+                    console.log(JSON.stringify(response.data));
+                    console.log("change D_Title -> title");
+                    console.log(JSON.stringify(changeD_Title(response.data)));
 
-                table: {
-                indentation: 20,    // child 들여쓰기
-                nodeColumnIdx: 0,   // title이 될 column의 index값
-                },
-                dnd5: { // 드래그 드롭
-                    preventVoidMoves: true, // 자기 이전의 노드로 이동 방지
-                    preventRecursion: true, // 자기 하위에 노드 놓기 방지
-                    preventSameParent: false, // 동일한 부모 아래에 노드 놓기 방지
-                    autoExpandMS: 1000,
-                    multiSource: true,  // 선택한 모든 노드(현재 노드 포함) 끌기
-                    // focusOnClick: true,
-                    // refreshPositions: true,
-                    dragStart: function(node, data) {
-                    // allow dragging `node`:
-                    data.effectAllowed = "all";
-                    data.dropEffect = data.dropEffectSuggested;  //"link";
-                    // data.dropEffect = "move";
-                    return true;    // 드래그 가능 : true
-                    },
-                    // dragDrag: function(node, data) {
-                    //   data.node.info("dragDrag", data);
-                    //   data.dropEffect = "copy";
-                    //   return true;
-                    // },
-                    dragEnter: function(node, data) {
-                    data.node.info("dragEnter", data);
-                    // data.dropEffect = "link";
-                    return true;    // 자식노드로도 옮겨넣을 수 있다.
-                    },
-                    dragOver: function(node, data) {
-                    // data.node.info("dragOver", data);
-                    data.dropEffect = data.dropEffectSuggested;  //"link";
-                    return true;    
-                    },
-                    dragEnd: function(node, data) {
-                    data.node.info("dragEnd", data);
-                    },
-                    dragDrop: function(node, data) {
-                    // This function MUST be defined to enable dropping of items on the tree.
-                    //
-                    // The source data is provided in several formats:
-                    //   `data.otherNode` (null if it's not a FancytreeNode from the same page)
-                    //   `data.otherNodeData` (Json object; null if it's not a FancytreeNode)
-                    //   `data.dataTransfer.getData()`
-                    //
-                    // We may access some meta data to decide what to do:
-                    //   `data.hitMode` ("before", "after", or "over").
-                    //   `data.dropEffect`, `.effectAllowed`
-                    //   `data.originalEvent.shiftKey`, ...
-                    //
-                    // Example:
+                    // 전체 게시글 수 가져오기
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/getRowCount',
+                        dataType: "json"
+                        ,success: function(res) {
 
-                    var sourceNodes = data.otherNodeList,
-                        copyMode = data.dropEffect !== "move";
+                            var bmCnt = JSON.stringify(res.data[0].bmCnt).replace(/"/g, '');
+                            //alert(bmCnt);
 
-                    if( data.hitMode === "after" ){
-                        // If node are inserted directly after tagrget node one-by-one,
-                        // this would reverse them. So we compensate:
-                        sourceNodes.reverse();
-                    }
-                    if( copyMode ) {
-                        $.each(sourceNodes, function(i, o){
-                        o.info("copy to " + node + ": " + data.hitMode);
-                        o.copyTo(node, data.hitMode, function(n){
-                            delete n.key;
-                            n.selected = false;
-                            n.title = "Copy of " + n.title;
-                        });
-                        });
-                    } else {
-                        $.each(sourceNodes, function(i, o){
-                        o.info("move to " + node + ": " + data.hitMode);
-                        o.moveTo(node, data.hitMode);
-                        });
-                    }
-                    node.debug("drop", data);
-                    node.setExpanded();
-                    }
-                },
-                /* dnd: {  //드래그 앤 드롭
-                    preventVoidMoves: true,
-                    preventRecursion: true,
-                    autoExpandMS: 400,
-                    multiSource: true,  // 멀티 드래그 앤 드롭
-                    dragStart: function(node, data) {
-                        return true;    // 드래그 가능 : true
-                    },
-                    dragEnter: function(node, data) {
-                        // return ["before", "after"];  // 다른 노드의 앞,뒤에만 가능
-                        return true;    // 자식노드로도 옮겨 넣을 수 있다.
-                    },
-                    dragDrop: function(node, data) {
-                        data.otherNode.moveTo(node, data.hitMode);
-                    },
-                }, */
+                            moveByGroup(bmCnt, nowPage);
+                            moveByPage(bmCnt, nowPage);
+                            moveHomeEnd(bmCnt, nowPage);
 
-                renderColumns: function(event, data) {
-                var node = data.node,
-                    $tdList = $(node.tr).find(">td");
+                        }
+                    });
 
-                // (Index #0 is rendered by fancytree by adding the checkbox)
-                // Set column #1 info from node data:
-                $tdList.eq(1).text(node.getIndexHier());
-                // (Index #2 is rendered by fancytree)
-                // Set column #3 info from node data:
-                $tdList
-                    .eq(3)
-                    .find("input")
-                    .val(node.key);
-                $tdList
-                    .eq(4)
-                    .find("input")
-                    .val(node.data.foo);
+                    var treeList = $("#bm_tree").fancytree({
 
-                // Static markup (more efficiently defined as html row template):
-                // $tdList.eq(3).html("<input type='input' value='"  "" + "'>");
-                // ...
-                },
-                modifyChild: function(event, data) {
-                data.tree.info(event.type, data);
+                        autoScroll: true,   // 자동 스크롤
+
+                        extensions: ["table", "dnd5", "multi"], // 필요한 확장 요소들
+
+                        source: changeD_Title(response.data),
+                        /* source: [
+                            {title: "node 1", folder: true, expanded: true, children: [
+                            {title: "node 1.1"},
+                            {title: "node 1.2"}
+                            ]},
+                            {title: "node 2", folder: true, expanded: false, children: [
+                            {title: "node 2.1"},
+                            {title: "node 2.2"}
+                            ]}
+                        ], */
+
+                        table: {
+                            indentation: 20,    // child 들여쓰기
+                            //nodeColumnIdx: 0,   // title이 될 column의 index (default 0)
+                        },
+
+                        dnd5: { // 드래그 드롭
+                            preventVoidMoves: true,     // 자기 이전의 노드로 이동 방지
+                            preventRecursion: true,     // 자기 하위에 노드 놓기 방지
+                            preventSameParent: false,   // 동일한 부모 아래에 노드 놓기 방지
+                            autoExpandMS: 1000,
+                            multiSource: true,          // 선택한 모든 노드(현재 노드 포함) 끌기
+                            // focusOnClick: true,
+                            // refreshPositions: true,
+                            dragStart: function(node, data) {
+                                // allow dragging `node`:
+                                data.effectAllowed = "all";
+                                data.dropEffect = data.dropEffectSuggested;  //"link";
+                                // data.dropEffect = "move";
+                                return true;    // 드래그 가능 : true
+                            },
+                            // dragDrag: function(node, data) {
+                            //   data.node.info("dragDrag", data);
+                            //   data.dropEffect = "copy";
+                            //   return true;
+                            // },
+                            dragEnter: function(node, data) {
+                                data.node.info("dragEnter", data);
+                                // data.dropEffect = "link";
+                                return true;    // 자식노드로도 옮겨넣을 수 있다.
+                            },
+                            dragOver: function(node, data) {
+                                // data.node.info("dragOver", data);
+                                data.dropEffect = data.dropEffectSuggested;  //"link";
+                                return true;    
+                            },
+                            dragEnd: function(node, data) {
+                                data.node.info("dragEnd", data);
+                            },
+                            dragDrop: function(node, data) {
+                                // 트리에 항목을 드롭할 수 있도록 이 기능을 정의해야 한다.
+                                //
+                                // 소스 데이터는 다음과 같은 몇 가지 형식으로 제공된다.
+                                //   `data.otherNode` (동일한 페이지에서 FancytreeNode가 아닌 경우 null)
+                                //   `data.otherNodeData` (Json 객체, FanchtreeNode가 아닌 경우 null)
+                                //   `data.dataTransfer.getData()`
+                                //
+                                // 다음 사항을 결정하기 위해 메타 데이터에 액세스할 수 있다.
+                                //   `data.hitMode` ("before", "after", or "over").
+                                //   `data.dropEffect`, `.effectAllowed`
+                                //   `data.originalEvent.shiftKey`, ...
+                                //
+                                // Example:
+
+                                var sourceNodes = data.otherNodeList,
+                                    copyMode = data.dropEffect !== "move";
+
+                                if( data.hitMode === "after" ){
+                                    // tagrget 노드 1대 1 뒤에 노드를 직접 삽입하면 노드가 반대로 된다. 
+                                    sourceNodes.reverse();
+                                }
+                                if( copyMode ) {
+                                    $.each(sourceNodes, function(i, o){
+                                    o.info("copy to " + node + ": " + data.hitMode);
+                                    o.copyTo(node, data.hitMode, function(n){
+                                        delete n.key;
+                                        n.selected = false;
+                                        n.title = "Copy of " + n.title;
+                                    });
+                                    });
+                                } else {
+                                    $.each(sourceNodes, function(i, o){
+                                    o.info("move to " + node + ": " + data.hitMode);
+                                    o.moveTo(node, data.hitMode);
+                                    });
+                                }
+                                node.debug("drop", data);
+                                node.setExpanded();
+                            },
+                        },
+
+                        fixed: {
+                            fixRows: 1 
+                        },
+                        
+                        childcounter: { // 자식노드 카운터
+                            deep: true,
+                            hideZeros: true,
+                            hideExpanded: true
+                        },
+
+                        filter: {   // 필터
+                            autoApply: true,    // 데이터 로드가 지연되면 마지막 필터를 다시 적용
+                            autoExpand: true,   // 필터링되는 동안 일치하는 항목을 포함하는 모든 분기 확장
+                            counter: true,      // 하위 노드 수 표시
+                            fuzzy: false,       // 순서대로 단일 문자 일치 (fb = FooBar)
+                            hideExpandedCounter: true,  // 확장된 경우 카운터 배지 숨기기
+                            highlight: true,    // 일치 강조
+                            leavesOnly: false,  // 끝 노드만 일치
+                            nodata: true,       // 결과 없을 때 'no data' 표시
+                            mode: "dimm"        // 일치하지 않는 노드 연하게 표시 dimm (없애려면 hide)
+                        },
+
+                        renderColumns: function(event, data) {
+                            var node = data.node,
+                            $tdList = $(node.tr).find(">td");
+
+                            // column #0 : 제목 : D_Title
+                            // table의 title로 지정되었기 때문에 컬럼명이 title로 적혀있어야 인식된다.
+                            // changeD_Title() 추가 후 잘 보여짐.
+
+                            // column #1 : 작성자 : D_cNm
+                            $tdList
+                                .eq(1)
+                                .text(node.data.D_cNm);
+
+                            // column #2 : BM i
+
+                            // column #3 : BM_UpIDs : BM_UpIDs
+                            $tdList
+                                .eq(3)
+                                .text(node.data.BM_UpIDs);
+
+                            // column #4 : BMTR Order : BMTR_Order
+                            $tdList
+                                .eq(4)
+                                .text(node.data.BMTR_Order);
+
+                            // column #5 : BM_LoIDs : BM_LoIDs
+                            $tdList
+                                .eq(5)
+                                .text(node.data.BM_LoIDs);
+
+                            // column #6 : BMTR lv : BMTR_lv
+                            $tdList
+                                .eq(6)
+                                .text(node.data.BMTR_lv);
+                                
+                            // column #7 : BMTR Grp ID : BMTR_Grp_ID
+                            $tdList
+                                .eq(7)
+                                .text(node.data.BMTR_Grp_ID);
+                                
+                            // column #8 : D ID : D_ID
+                            $tdList
+                                .eq(8)
+                                .text(node.data.D_ID);
+                                
+                            // column #9 : BMTR Seq : BMTR_Seq
+                            $tdList
+                                .eq(9)
+                                .text(node.data.BMTR_Seq);
+                        },
+
+                        modifyChild: function(event, data) {
+                            data.tree.info(event.type, data);
+                        }
+                    });
+
+                    filterSearch();
+                    
+                    var treeList = $("#bm_tree").fancytree("getTree");
+                    treeList.visit(function(node) {
+                        node.setExpanded(true);
+                    });
                 }
             });
+
+            
+
+        
+            
                  
-            // dev        
+            // DevExtreem        
             /* $.ajax({
                 type: 'POST',
                 url: '/api/callData',
@@ -1073,6 +1154,28 @@
                     $("#bm_tree").dxTreeList("instance").expandAll();
                 }
             }); */
+        };
+
+        function filterSearch() {
+
+            // Fancytree Filter 검색
+            $("input[name=search]").on("change search", function(e){
+                if (e.type === "change" && e.target.onsearch !== undefined ) {
+                    // 검색 이벤트가 지원되지 않는 경우에만 변경 이벤트 처리로 돌아간다.
+                    return;
+                }
+                var n,
+                    tree = $.ui.fancytree.getTree(),
+                    match = $.trim($(this).val());
+
+                // 대/소문자 구분 없이 일치하도록 문자열 전달
+                n = tree.filterNodes(match, { mode: "hide" });
+
+                // 필터링된 행 집합이 현재 뷰포트 내에 없는 경우 시작 값을 조정함
+                // tree.setViewport();
+
+                $("span.matches").text(n ? "(" + n + " matches)" : "");
+            });
         }
 
         // 20.11.06 us.Kim
@@ -1083,9 +1186,51 @@
         // 다음과 같은 경우 Ajax 실패 시 데이터가 아예 안보이게 됨 ( 이전것도 사라짐 )
         function RefreshData(){
 
-            $("#bm_tree").dxTreeList("dispose");
+            //$("#bm_tree").dxTreeList("dispose");
 
-            BindData();
+            //BindData(); 
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/callData',
+                data: {pPage: nowPage, pPageCount: dataPerPage},
+                //data: {pPage: 1, pPageCount: 150},
+                dataType: "json",
+                cache: false,
+                success: function(response) {
+                    console.log("RefreshData() response.data");
+                    console.log(JSON.stringify(response.data));
+                    console.log("RefreshData() change D_Title -> title");
+                    console.log(JSON.stringify(changeD_Title(response.data)));
+                    data = changeD_Title(response.data);
+
+                    var treeList = $("#bm_tree").fancytree("getTree");
+                    treeList.reload(data).done(function(){
+                        treeList.visit(function(node) {
+                            node.setExpanded(true);
+                        });
+
+                        // 전체 게시글 수 가져오기
+                        $.ajax({
+                            type: 'GET',
+                            url: '/api/getRowCount',
+                            dataType: "json"
+                            ,success: function(res) {
+
+                                var bmCnt = JSON.stringify(res.data[0].bmCnt).replace(/"/g, '');
+                                //alert(bmCnt);
+
+                                moveByGroup(bmCnt, nowPage);
+                                moveByPage(bmCnt, nowPage);
+                                moveHomeEnd(bmCnt, nowPage);
+
+                            }
+                        });
+
+                        filterSearch();
+                    });
+                }
+            });
         }
 
         function AddBoard(upIDs, title, name, groupId, contents) {
@@ -1096,6 +1241,7 @@
                 //  + '?page=' + pages + '&rowCount=' + rowcounts,
                 dataType: "json"
                 ,success: function(respnse) {
+                    nowPage = 1;
                     RefreshData();
                 }
             });
