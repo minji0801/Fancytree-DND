@@ -315,6 +315,7 @@ span.fancytree-checkbox.fancytree-radio:hover {
 span.fancytree-icon {
   margin-left: 3px;
   background-position: 0px 0px;
+  visibility: hidden;
 }
 /* Documents */
 .fancytree-ico-c span.fancytree-icon:hover {

@@ -15,9 +15,11 @@ const config = {
             // "options"   : {
             //     "encrypt" : false
             // }
-        "user"      : "sa",
+        "user"      : "test",
+        //"user"      : "sa",
         "password"  : "qw12qw12",
-        "server"    : "192.168.0.181",
+        "server"    : "192.168.35.17",
+        //"server"    : "192.168.0.181",
         // "server"    : "192.168.0.135",
         "port"      : 1433,
         "database"  : "aTEST",
@@ -152,21 +154,81 @@ router.post('/callData', function(req, res, next) {
 
             var queryString = "EXEC p_BMTR " + req.body.pPage + ", " + req.body.pPageCount;
 
+            var getbmCntQueryString = "WITH c ( " 
+                                    + "c_Grp_M_IDs"
+                                    + ", c_BM_UpIDs"
+                                    + ", c_BM_LoIDs"
+                                    + ", c_Lv"
+                                    + ", c_D_ID"
+                                    + ", c_Sort_BM_IDs"
+                                    + ", c_BM_Seq "
+                                    + ") "
+                                    + "AS "
+                                    + "( "
+                                    + "SELECT " 
+                                    + "BM_LoIDs    grpM_IDs"
+                                    + ", BM_UpIDs"
+                                    + ", BM_LoIDs"
+                                    + ", 0           Lv"
+                                    + ", BM_D_ID"
+                                    + ", '_' + REPLICATE('0', 5  - LEN(1000 - BM_Seq)) + CAST((1000 - BM_Seq) AS VARCHAR(255))   Sort_BM_IDs"
+                                    + ", BM_Seq "
+                                    + "FROM tBM "
+                                    + "WHERE BM_UpIDs = 0 "
+
+                                    + "UNION ALL "
+
+                                    + "SELECT "
+                                    + "c_Grp_M_IDs"
+                                    + ", BM_UpIDs"
+                                    + ", BM_LoIDs"
+                                    + ", c_Lv + 1"
+                                    + ", BM_D_ID"
+                                    + ", c_Sort_BM_IDs   + '_' + REPLICATE('0', 5  - LEN(1000 - BM_Seq)) + CAST((1000 - BM_Seq) AS VARCHAR(255)) Sort_BM_IDs"
+                                    + ", BM_Seq "
+                                    + "FROM tBM "
+                                    + "INNER JOIN c  ON c_BM_LoIDs = BM_UpIDs "
+                                    + ") "
+                                    + "SELECT COUNT(*) bmCnt FROM ( "
+                                    + "SELECT "
+                                    + "ROW_NUMBER() OVER(ORDER BY c_Sort_BM_IDs ) AS rownum, "
+                                    + "c_BM_UpIDs BM_UpIDs"
+                                    + ", c_BM_LoIDs BM_LoIDs"
+                                    + ", c_Sort_BM_IDs BMTR_Order"
+                                    + ", c_BM_Seq"
+                                    + ", REPLICATE('ㅤ', c_Lv) + D_Title D_Title"
+                                    + ", D_cNm"
+                                    + ", c_Grp_M_IDs BMTR_Grp_ID"
+                                    + ", c_Lv BMTR_lv"
+                                    + ", c_D_ID D_ID"
+                                    + ", c_BM_Seq BMTR_Seq "
+                                    + "FROM c "
+                                    + "INNER JOIN tD ON D_ID = c_D_ID "
+                                    + ") tBM";
+
             request.query(queryString, function (err, result) {
         
-
                 var returnData = GetTree(result.recordset);
 
                 console.log(JSON.stringify(returnData));
 
-                res.json({data : returnData} );
+                request.query(getbmCntQueryString, function (err, getbmCntResult) {
+        
+                    var bmCntData = GetTree(getbmCntResult.recordset);
+    
+                    console.log(JSON.stringify(bmCntData));
+    
+                    res.json({data : returnData, bmCntData : bmCntData});
+
+                    //console.log(recordset.recordset)
+                    //res.render()
+                });
+
+                //res.json({data : returnData});
                 //console.log(recordset.recordset)
                 //res.render()
             });
         
-        
-            
-
             // request.input('p_Parameter', sql.NVARCHAR(sql.MAX), '|||ExecTy       ===gvvA|||E_IDs        ===E0000001|||asas         ===  |||');
         
             // request.execute('p__PT_FA', function (err, recordsets, returnValue) {
@@ -182,85 +244,6 @@ router.post('/callData', function(req, res, next) {
     }
     // res.render('index', { title: 'Express' });
 
-});
-
-router.get('/getRowCount', function(req, res, next) {
-    try {
-
-        console.log('getRowCount');
-
-        mssql.connect(config, function (err) {
-
-            console.log('Connect');
-            var request = new mssql.Request();
-
-            var queryString = "WITH c ( " 
-                                + "c_Grp_M_IDs"
-                                + ", c_BM_UpIDs"
-                                + ", c_BM_LoIDs"
-                                + ", c_Lv"
-                                + ", c_D_ID"
-                                + ", c_Sort_BM_IDs"
-                                + ", c_BM_Seq "
-                                + ") "
-                                + "AS "
-                                + "( "
-                                + "SELECT " 
-                                + "BM_LoIDs    grpM_IDs"
-                                + ", BM_UpIDs"
-                                + ", BM_LoIDs"
-                                + ", 0           Lv"
-                                + ", BM_D_ID"
-                                + ", '_' + REPLICATE('0', 5  - LEN(1000 - BM_Seq)) + CAST((1000 - BM_Seq) AS VARCHAR(255))   Sort_BM_IDs"
-                                + ", BM_Seq "
-                                + "FROM tBM "
-                                + "WHERE BM_UpIDs = 0 "
-
-                                + "UNION ALL "
-
-                                + "SELECT "
-                                + "c_Grp_M_IDs"
-                                + ", BM_UpIDs"
-                                + ", BM_LoIDs"
-                                + ", c_Lv + 1"
-                                + ", BM_D_ID"
-                                + ", c_Sort_BM_IDs   + '_' + REPLICATE('0', 5  - LEN(1000 - BM_Seq)) + CAST((1000 - BM_Seq) AS VARCHAR(255)) Sort_BM_IDs"
-                                + ", BM_Seq "
-                                + "FROM tBM "
-                                + "INNER JOIN c  ON c_BM_LoIDs = BM_UpIDs "
-                                + ") "
-                                + "SELECT COUNT(*) bmCnt FROM ( "
-                                + "SELECT "
-                                + "ROW_NUMBER() OVER(ORDER BY c_Sort_BM_IDs ) AS rownum, "
-                                + "c_BM_UpIDs BM_UpIDs"
-                                + ", c_BM_LoIDs BM_LoIDs"
-                                + ", c_Sort_BM_IDs BMTR_Order"
-                                + ", c_BM_Seq"
-                                + ", REPLICATE('ㅤ', c_Lv) + D_Title D_Title"
-                                + ", D_cNm"
-                                + ", c_Grp_M_IDs BMTR_Grp_ID"
-                                + ", c_Lv BMTR_lv"
-                                + ", c_D_ID D_ID"
-                                + ", c_BM_Seq BMTR_Seq "
-                                + "FROM c "
-                                + "INNER JOIN tD ON D_ID = c_D_ID "
-                                + ") tBM"
-
-            request.query(queryString, function (err, result) {
-        
-
-                var returnData = GetTree(result.recordset);
-
-                console.log(JSON.stringify(returnData));
-
-                res.json({data : returnData} );
-                //console.log(recordset.recordset)
-                //res.render()
-            });
-        });
-    } catch (err) {
-        alert(err);
-    }
 });
 
 router.post('/addData', function(req, res, next) {
